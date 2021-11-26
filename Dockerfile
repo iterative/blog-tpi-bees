@@ -4,7 +4,7 @@ ENV ENVIRONMENT_NAME=conda-env-py3.7
 SHELL ["/bin/bash", "-c"]
 
 # Install curl to download Anaconda.
-RUN apt-get update && apt-get install curl -y
+RUN apt-get update && apt-get install curl -y python3
 
 # Download and install Anaconda.
 RUN cd /tmp && curl -O https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh
@@ -24,4 +24,4 @@ COPY ./requirements.txt /tmp/requirements.txt
 RUN . ${CONDA_PATH}/bin/activate ${ENVIRONMENT_NAME} \
   && conda env update --name ${ENVIRONMENT_NAME} --file /tmp/requirements.txt --prune
 
-CMD ["python", "src/train.py"]
+CMD ["python3", "src/train.py"]
