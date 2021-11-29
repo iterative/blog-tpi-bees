@@ -24,4 +24,5 @@ SHELL ["conda", "run", "-n", "${ENVIRONMENT_NAME}", "/bin/bash", "-c"]
 
 COPY ./src/train.py train.py
 
-ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "conda-env-py3.7", "python3", "train.py"]
+ENTRYPOINT ["sleep", "1000"]
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "conda-env-py3.7", "python3", "train.py"]
