@@ -19,9 +19,10 @@ RUN conda --version
 
 # Create the environment and activate it
 COPY ./requirements.txt /tmp/requirements.txt
-RUN conda init bash && conda create --name ${ENVIRONMENT_NAME} python=3.7 --file /tmp/requirements.txt -y 
-SHELL ["conda", "run", "-n", "${ENVIRONMENT_NAME}", "/bin/bash", "-c"]
 
-COPY ./src/train.py train.py
+RUN conda init bash && conda install --yes --file /tmp/requirements.txt
 
-ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "conda-env-py3.7", "python3", "train.py"]
+COPY ./src/ src/
+COPY ./data/ data/
+
+ENTRYPOINT ["python3", "src/train.py"]
