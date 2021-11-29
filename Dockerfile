@@ -1,5 +1,4 @@
 FROM --platform=linux/amd64 nvidia/cuda:11.4.2-runtime-ubuntu20.04
-ENV ENVIRONMENT_NAME=conda-env-py3.7
 ENV PATH="/root/miniconda3/bin:${PATH}"
 ARG PATH="/root/miniconda3/bin:${PATH}"
 SHELL ["/bin/bash", "-c"]
