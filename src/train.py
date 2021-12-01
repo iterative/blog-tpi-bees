@@ -3,6 +3,8 @@ from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import json
+import os
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 100
@@ -89,4 +91,6 @@ model.fit_generator( train_generator,
     
 scores = model.evaluate_generator(test_generator)
 
-print(scores[1])
+os.makedirs(os.path.dirname("shared/metrics.json"), exist_ok=True)
+with open("shared/metrics.json", 'w') as outfile:
+        json.dump({ "Accuracy": str(scores[1])}, outfile)
