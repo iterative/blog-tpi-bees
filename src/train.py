@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -72,6 +73,7 @@ test_generator = image_generator.flow_from_dataframe(
     color_mode='rgb',
     class_mode="categorical",
 )
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 model = keras.Sequential()
 model.add(layers.Conv2D(16, kernel_size=3, input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT,IMAGE_CHANNELS), activation='relu', padding='same'))
