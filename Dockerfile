@@ -16,9 +16,8 @@ RUN wget \
     && rm -f Miniconda3-latest-Linux-x86_64.sh 
 RUN conda --version
 
-# Create the environment and activate it
+# Add the required packages to the environment
 COPY ./requirements.txt /tmp/requirements.txt
-
 RUN conda init bash && conda install --yes --file /tmp/requirements.txt
 
 COPY ./src/ src/
