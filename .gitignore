@@ -5,5 +5,4 @@ terraform.tfstate.backup
 .terraform/providers/registry.terraform.io/iterative/iterative/0.9.2/darwin_amd64/LICENSE
 .terraform/providers/registry.terraform.io/iterative/iterative/0.9.2/darwin_amd64/README.md
 .terraform/providers/registry.terraform.io/iterative/iterative/0.9.2/darwin_amd64/terraform-provider-iterative_v0.9.2
-.vscode
 get-docker.sh
