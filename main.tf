@@ -1,33 +1,26 @@
 terraform {
-  required_providers {
-    iterative = {
-      source  = "iterative/iterative"
+    required_providers {
+        iterative = {
+            source = "iterative/iterative",
+        }
     }
-  }
 }
 
 provider "iterative" {}
 
-resource "iterative_task" "gpu_tutorial" {
-  name  = "bees-gpu-training-1"
-  cloud = "aws" 
-  region = "us-east-2"
-  machine = "p2.xlarge"
+resource "iterative_task" "tpi-examples-basic" {
+    name      = "tpi-examples-basic "
+    cloud     = "aws"
+    region    = "us-east-2"
+    machine   = "l+k80"
+    directory = "."
 
-  directory = "${path.root}/shared"
-
-  script = <<-END
+    script = <<-END
     #!/bin/bash
-    sudo apt update && sudo apt install --yes docker.io  
-    sudo usermod -aG docker $USER
-    newgrp docker
-    docker pull maria9pk2hq/bees:bees
-    docker run maria9pk2hq/bees:bees
+    sudo apt update
+    sudo apt-get install -y software-properties-common build-essential python3-pip
 
-  END
+    pip3 install -r requirements.txt
+    python3 src/train.py 
+    END
 }
-
-
-
-
-
