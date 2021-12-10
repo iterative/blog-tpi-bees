@@ -28,7 +28,9 @@ resource "iterative_task" "tpi-examples-gpu" {
     sudo apt update && sudo apt install -y nvidia-docker2
     sudo systemctl restart docker
     rm get-docker.sh
+    
     nvidia-smi
+
     docker run --rm --gpus all -v "$PWD:/tpi" iterativeai/cml:0-dvc2-base1-gpu \
         /bin/bash -c "cd /tpi; pip install -r requirements.txt; python src/train.py"
     END
