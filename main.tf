@@ -12,7 +12,7 @@ resource "iterative_task" "tpi-examples-basic" {
     script = <<-END
     #!/bin/bash
     sudo apt update
-    sudo apt-get install -y python3-pip
+    sudo apt install -y python3-pip
     pip3 install -r requirements.txt
     python3 src/train.py 
     END
