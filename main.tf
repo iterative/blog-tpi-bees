@@ -1,20 +1,14 @@
 terraform {
-    required_providers {
-        iterative = {
-            source = "iterative/iterative",
-        }
-    }
+    required_providers { iterative = { source = "iterative/iterative", version = ">= 0.9.9" } }
 }
-
 provider "iterative" {}
-
 resource "iterative_task" "tpi-examples-basic" {
     name      = "tpi-examples-basic "
     cloud     = "aws"
     region    = "us-east-2"
     machine   = "l+k80"
-    directory = "."
 
+    workdir { input = "." }
     script = <<-END
     #!/bin/bash
     sudo apt update
@@ -31,8 +25,8 @@ resource "iterative_task" "tpi-examples-gpu" {
     machine   = "m+k80"
     disk_size = "130"
     image     = "ubuntu@898082745236:x86_64:Deep Learning AMI (Ubuntu 18.04) Version 54.0"
-    directory = "."
 
+    workdir { input = "." }
     script = <<-END
     #!/bin/bash
     pip3 install -r requirements.txt
