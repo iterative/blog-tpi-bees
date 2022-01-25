@@ -1,5 +1,5 @@
 terraform {
-    required_providers { iterative = { source = "iterative/iterative", version = ">= 0.9.9" } }
+    required_providers { iterative = { source = "iterative/iterative"} }
 }
 provider "iterative" {}
 
