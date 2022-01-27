@@ -3,12 +3,12 @@ terraform {
 }
 provider "iterative" {}
 
-resource "iterative_task" "tpi-examples-gpu" {
-    name      = "tpi-examples-gpu"
+resource "iterative_task" "tpi-docker-examples" {
+    name      = "tpi-docker-examples"
     cloud     = "aws"
     region    = "us-east-2"
     machine   = "m+k80"
-    workdir { input = "." }
+    directory = "." 
 
     script = <<-END
     #!/bin/bash
@@ -25,7 +25,7 @@ resource "iterative_task" "tpi-examples-gpu" {
     rm get-docker.sh
     
     nvidia-smi
-    docker run --rm --gpus all -v "$PWD:/tpi" iterativeai/cml:0-dvc2-base1-gpu \
-        /bin/bash -c "cd /tpi; pip install -r requirements.txt; python src/train.py"
+    docker run --rm --gpus all -v "$PWD:/bees" maria9pk2hq/bees:bees \
+        /bin/bash -c "cd /bees; python3 src/train.py"
     END
 }
