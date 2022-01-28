@@ -25,7 +25,6 @@ resource "iterative_task" "tpi-docker-examples" {
     rm get-docker.sh
     
     nvidia-smi
-    docker run --rm --gpus all -v "$PWD:/bees" maria9pk2hq/bees:bees \
-        /bin/bash -c "cd /bees; python3 src/train.py"
+    docker run --rm --gpus all -v "$PWD":/app cml/bees:latest python3 src/train.py
     END
 }
