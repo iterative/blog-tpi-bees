@@ -8,7 +8,7 @@ resource "iterative_task" "tpi-docker-examples" {
     cloud     = "aws"
     region    = "us-east-2"
     machine   = "m+k80"
-    directory = "." 
+    workdir { input = "." }
 
     script = <<-END
     #!/bin/bash
@@ -25,7 +25,7 @@ resource "iterative_task" "tpi-docker-examples" {
     rm get-docker.sh
     
     nvidia-smi
-    docker run --rm --gpus all -v "$PWD:/bees" maria9pk2hq/bees:bees \
-        /bin/bash -c "cd /bees; python3 src/train.py"
+    
+    docker run --rm --gpus all -v "$PWD":/app maria9pk2hq/bees:bees python3 src/train.py    
     END
 }
