@@ -8,14 +8,13 @@ resource "iterative_task" "tpi-docker-examples" {
     cloud     = "aws"
     region    = "us-east-2"
     machine   = "m+k80"
-    directory = "." 
+    workdir { input = "." }
 
     script = <<-END
     #!/bin/bash
-    sudo apt update
-    sudo apt-get install -y software-properties-common build-essential ubuntu-drivers-common
+    sudo apt update -qq && sudo apt install -yqq software-properties-common build-essential ubuntu-drivers-common
     sudo ubuntu-drivers autoinstall
-    sudo curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh &&
+    sudo curl -fsSL https://get.docker.com | sudo sh -
     sudo usermod -aG docker ubuntu
     sudo setfacl --modify user:ubuntu:rw /var/run/docker.sock
     curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
@@ -25,7 +24,7 @@ resource "iterative_task" "tpi-docker-examples" {
     rm get-docker.sh
     
     nvidia-smi
-    docker run --rm --gpus all -v "$PWD:/bees" maria9pk2hq/bees:bees \
-        /bin/bash -c "cd /bees; python3 src/train.py"
+    
+    docker run --rm --gpus all -v "$PWD":/app maria9pk2hq/bees:bees python3 src/train.py    
     END
 }
