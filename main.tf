@@ -9,7 +9,7 @@ resource "iterative_task" "tpi-examples-basic" {
     machine   = "l+k80"
     storage {
         workdir = "."
-        output = "results"
+        output = "shared"
     }
 
     script = <<-END
@@ -30,7 +30,7 @@ resource "iterative_task" "tpi-examples-gpu" {
     image     = "ubuntu@898082745236:x86_64:Deep Learning AMI (Ubuntu 18.04) Version 54.0"
     storage {
         workdir = "."
-        output = "results"
+        output = "shared"
     }
 
     script = <<-END
