@@ -9,7 +9,7 @@ resource "iterative_task" "tpi-examples-basic" {
     machine   = "l+k80"
     storage {
         workdir = "."
-        output = "results"
+        output = "shared"
     }
 
     script = <<-END
