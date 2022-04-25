@@ -7,6 +7,7 @@ resource "iterative_task" "tpi-examples-basic" {
     cloud     = "aws"
     region    = "us-east-2"
     machine   = "l+k80"
+    spot      = 0
     storage {
         workdir = "."
         output = "shared"
@@ -26,7 +27,8 @@ resource "iterative_task" "tpi-examples-gpu" {
     cloud     = "aws"
     region    = "us-east-2"
     machine   = "m+k80"
-    disk_size = "130"
+    spot      = 0
+    disk_size = 130
     image     = "ubuntu@898082745236:x86_64:Deep Learning AMI (Ubuntu 18.04) Version 54.0"
     storage {
         workdir = "."
