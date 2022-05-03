@@ -12,15 +12,15 @@ resource "iterative_task" "example-basic" {
   image   = "ubuntu"
 
   storage {
-    workdir = "shared"
-    output  = "."
+    workdir = "."
+    output  = "results-basic"
   }
   script = <<-END
     #!/bin/bash
     sudo apt-get update -q
     sudo apt-get install -yq python3-pip
     pip3 install -r requirements.txt
-    python3 train.py --output metrics-cpu.json
+    python3 train.py --output results-basic/metrics.json
   END
 }
 
@@ -33,14 +33,14 @@ resource "iterative_task" "example-gpu" {
   image   = "nvidia" # has CUDA GPU drivers
 
   storage {
-    workdir = "shared"
-    output  = "."
+    workdir = "."
+    output  = "results-gpu"
   }
   script = <<-END
     #!/bin/bash
     sudo apt-get update -q
     sudo apt-get install -yq python3-pip
     pip3 install -r requirements.txt
-    python3 train.py --output metrics-gpu.json
+    python3 train.py --output results-gpu/metrics.json
   END
 }

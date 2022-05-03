@@ -3,10 +3,12 @@ Usage:
   train.py [options]
 
 Options:
-  -o=<file>, --output=<file>  : Output JSON metrics filename.
+  -o=<file>, --output=<file>  : Output JSON metrics filename
+      [default: metrics.json].
+  -s=<num>, --seed=<num>      : Random seed [default: 42:int].
 """
 import json
-import os
+from pathlib import Path
 
 import pandas as pd
 import tensorflow as tf
@@ -21,9 +23,9 @@ IMAGE_HEIGHT = 100
 IMAGE_CHANNELS = 3
 IMAGES_PATH = "data/bee_imgs/bee_imgs/"
 BEE_DATA_CSV_PATH = "data/bee_data.csv"
-RANDOM_STATE = 42
 BATCH_SIZE = 32
 args = argopt(__doc__).parse_args()
+RANDOM_STATE = args.seed
 
 bee_data = pd.read_csv(BEE_DATA_CSV_PATH)
 bee_labels = bee_data[["file", "subspecies"]]
@@ -113,6 +115,6 @@ model.fit_generator(
 
 scores = model.evaluate_generator(test_generator)
 
-os.makedirs(os.path.dirname(args.output), exist_ok=True)
-with open(args.output, "w") as outfile:
+Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+with Path(args.output).open("w") as outfile:
     json.dump({"Accuracy": str(scores[1])}, outfile)
