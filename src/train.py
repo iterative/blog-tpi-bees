@@ -118,7 +118,7 @@ model.fit(
     callbacks=[TqdmCallback()],
 )
 
-scores = model.evaluate_generator(test_generator)
+scores = model.evaluate(test_generator)
 
 Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 with Path(args.output).open("w") as outfile:
