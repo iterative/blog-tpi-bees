@@ -1,43 +1,46 @@
 terraform {
-    required_providers { iterative = { source = "iterative/iterative", version = ">= 0.9.9" } }
+  required_providers { iterative = { source = "iterative/iterative" } }
 }
 provider "iterative" {}
-resource "iterative_task" "tpi-examples-basic" {
-    name      = "tpi-examples-basic "
-    cloud     = "aws"
-    region    = "us-east-2"
-    machine   = "l+k80"
-    spot      = 0
-    storage {
-        workdir = "."
-        output = "shared"
-    }
 
-    script = <<-END
+# Basic (CPU) version
+resource "iterative_task" "example-basic" {
+  cloud   = "aws"    # or any of: gcp, az, k8s
+  machine = "m"      # medium. Or any of: l, xl, m+k80, xl+v100, ...
+  spot    = 0        # auto-price. Default -1 to disable, or >0 for hourly USD limit
+  timeout = 24*60*60 # 24h
+  image   = "ubuntu"
+
+  storage {
+    workdir = "shared"
+    output  = "."
+  }
+  script = <<-END
     #!/bin/bash
-    sudo apt update
-    sudo apt install -y python3-pip
+    sudo apt-get update -q
+    sudo apt-get install -yq python3-pip
     pip3 install -r requirements.txt
-    python3 src/train.py 
-    END
+    python3 train.py --output metrics-cpu.json
+  END
 }
 
-resource "iterative_task" "tpi-examples-gpu" {
-    name      = "ami-gpu-example"
-    cloud     = "aws"
-    region    = "us-east-2"
-    machine   = "m+k80"
-    spot      = 0
-    disk_size = 130
-    image     = "ubuntu@898082745236:x86_64:Deep Learning AMI (Ubuntu 18.04) Version 54.0"
-    storage {
-        workdir = "."
-        output = "shared"
-    }
+# GPU version
+resource "iterative_task" "example-gpu" {
+  cloud   = "aws"    # or any of: gcp, az, k8s
+  machine = "m+t4"   # 4 CPUs and an NVIDIA Tesla T4 GPU
+  spot    = 0        # auto-price. Default -1 to disable, or >0 for hourly USD limit
+  timeout = 24*60*60 # 24h
+  image   = "nvidia" # has CUDA GPU drivers
 
-    script = <<-END
+  storage {
+    workdir = "shared"
+    output  = "."
+  }
+  script = <<-END
     #!/bin/bash
+    sudo apt-get update -q
+    sudo apt-get install -yq python3-pip
     pip3 install -r requirements.txt
-    python3 src/train.py 
-    END
+    python3 train.py --output metrics-gpu.json
+  END
 }

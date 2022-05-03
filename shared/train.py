@@ -1,3 +1,10 @@
+"""train.py
+Usage:
+  train.py [options]
+
+Options:
+  -o=<file>, --output=<file>  : Output JSON metrics filename.
+"""
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
@@ -6,6 +13,7 @@ from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import json
 import os
+from argopt import argopt
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 100
@@ -14,6 +22,7 @@ IMAGES_PATH = "data/bee_imgs/bee_imgs/"
 BEE_DATA_CSV_PATH = "data/bee_data.csv"
 RANDOM_STATE = 42
 BATCH_SIZE = 32
+args = argopt(__doc__).parse_args()
 
 bee_data = pd.read_csv(BEE_DATA_CSV_PATH)
 bee_labels = bee_data[['file', 'subspecies']]
@@ -29,18 +38,18 @@ image_generator = ImageDataGenerator(
     samplewise_std_normalization=False,
     zca_whitening=False,
     rotation_range=180,
-    zoom_range = 0.1, 
+    zoom_range = 0.1,
     width_shift_range=0.1,
-    height_shift_range=0.1, 
+    height_shift_range=0.1,
     horizontal_flip=True,
     vertical_flip=True,
     validation_split = 0.2
     )
 
 train_generator = image_generator.flow_from_dataframe(
-    dataframe=train_df, 
-    directory=IMAGES_PATH, 
-    x_col="file", 
+    dataframe=train_df,
+    directory=IMAGES_PATH,
+    x_col="file",
     y_col="subspecies",
     target_size=(100,100),
     color_mode='rgb',
@@ -51,9 +60,9 @@ train_generator = image_generator.flow_from_dataframe(
     subset='training'
 )
 val_generator = image_generator.flow_from_dataframe(
-    dataframe=train_df, 
-    directory=IMAGES_PATH, 
-    x_col="file", 
+    dataframe=train_df,
+    directory=IMAGES_PATH,
+    x_col="file",
     y_col="subspecies",
     target_size=(100,100),
     color_mode='rgb',
@@ -65,9 +74,9 @@ val_generator = image_generator.flow_from_dataframe(
 )
 
 test_generator = image_generator.flow_from_dataframe(
-    dataframe=test_df, 
-    directory=IMAGES_PATH, 
-    x_col="file", 
+    dataframe=test_df,
+    directory=IMAGES_PATH,
+    x_col="file",
     y_col="subspecies",
     target_size=(100,100),
     color_mode='rgb',
@@ -87,12 +96,12 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 model.fit_generator( train_generator,
     steps_per_epoch = train_generator.samples // BATCH_SIZE,
-    validation_data = val_generator, 
+    validation_data = val_generator,
     validation_steps = val_generator.samples // BATCH_SIZE,
     epochs = 15)
-    
+
 scores = model.evaluate_generator(test_generator)
 
-os.makedirs(os.path.dirname("shared/metrics.json"), exist_ok=True)
-with open("shared/metrics.json", 'w') as outfile:
+os.makedirs(os.path.dirname(args.output), exist_ok=True)
+with open(args.output, 'w') as outfile:
         json.dump({ "Accuracy": str(scores[1])}, outfile)
