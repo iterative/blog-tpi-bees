@@ -8,6 +8,7 @@ Options:
   -s=<num>, --seed=<num>      : Random seed [default: 42:int].
 """
 import json
+import logging
 from pathlib import Path
 
 import pandas as pd
@@ -17,7 +18,9 @@ from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tqdm.keras import TqdmCallback
 
+logging.basicConfig(level=logging.INFO)
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 100
 IMAGE_CHANNELS = 3
@@ -105,12 +108,14 @@ model.add(layers.Flatten())
 model.add(layers.Dense(OUTPUT_SIZE, activation="softmax"))
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-model.fit_generator(
+model.fit(
     train_generator,
     steps_per_epoch=train_generator.samples // BATCH_SIZE,
     validation_data=val_generator,
     validation_steps=val_generator.samples // BATCH_SIZE,
     epochs=15,
+    verbose=0,
+    callbacks=[TqdmCallback()],
 )
 
 scores = model.evaluate_generator(test_generator)

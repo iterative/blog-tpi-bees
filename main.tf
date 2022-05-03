@@ -15,6 +15,7 @@ resource "iterative_task" "example-basic" {
     workdir = "."
     output  = "results-basic"
   }
+  environment = { TF_CPP_MIN_LOG_LEVEL = "1" }
   script = <<-END
     #!/bin/bash
     sudo apt-get update -q
@@ -36,6 +37,7 @@ resource "iterative_task" "example-gpu" {
     workdir = "."
     output  = "results-gpu"
   }
+  environment = { TF_CPP_MIN_LOG_LEVEL = "1" }
   script = <<-END
     #!/bin/bash
     sudo apt-get update -q
