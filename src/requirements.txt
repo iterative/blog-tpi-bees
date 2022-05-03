@@ -1,0 +1,7 @@
+argopt
+pandas
+scikit-learn
+tqdm
+pillow
+# GPU: tensorflow-cpu==2.8.0
+# GPU: tensorflow==2.8.0

@@ -12,7 +12,7 @@ resource "iterative_task" "example-basic" {
   image   = "ubuntu"
 
   storage {
-    workdir = "."
+    workdir = "src"
     output  = "results-basic"
   }
   environment = { TF_CPP_MIN_LOG_LEVEL = "1" }
@@ -20,7 +20,7 @@ resource "iterative_task" "example-basic" {
     #!/bin/bash
     sudo apt-get update -q
     sudo apt-get install -yq python3-pip
-    pip3 install -r requirements.txt
+    pip3 install -r requirements.txt tensorflow-cpu==2.8.0
     python3 train.py --output results-basic/metrics.json
   END
 }
@@ -34,7 +34,7 @@ resource "iterative_task" "example-gpu" {
   image   = "nvidia" # has CUDA GPU drivers
 
   storage {
-    workdir = "."
+    workdir = "src"
     output  = "results-gpu"
   }
   environment = { TF_CPP_MIN_LOG_LEVEL = "1" }
@@ -42,7 +42,7 @@ resource "iterative_task" "example-gpu" {
     #!/bin/bash
     sudo apt-get update -q
     sudo apt-get install -yq python3-pip
-    pip3 install -r requirements.txt
+    pip3 install -r requirements.txt tensorflow==2.8.0
     python3 train.py --output results-gpu/metrics.json
   END
 }
