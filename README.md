@@ -1,6 +1,8 @@
 An example of setting up remote cloud environment for training a machine learning model using [Terraform Provider Iterative](https://github.com/iterative/terraform-provider-iterative).
 
-`main.tf` contains two different tasks:
+See the blog post at <https://dvc.org/blog/moving-local-experiments-to-the-cloud-with-tpi> for a full explanation.
+
+The `main.tf` file contains two different tasks:
 
 1. basic scenario for running a script remotely, and
 2. training a model on a GPU device
