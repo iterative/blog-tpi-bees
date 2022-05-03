@@ -26,10 +26,10 @@ resource "iterative_task" "example-basic" {
 
 # GPU version
 resource "iterative_task" "example-gpu" {
-  cloud   = "aws"    # or any of: gcp, az, k8s
+  cloud   = "aws"
   machine = "m+t4"   # 4 CPUs and an NVIDIA Tesla T4 GPU
-  spot    = 0        # auto-price. Default -1 to disable, or >0 for hourly USD limit
-  timeout = 24*60*60 # 24h
+  spot    = 0
+  timeout = 24*60*60
   image   = "nvidia" # has CUDA GPU drivers
 
   storage {
