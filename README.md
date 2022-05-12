@@ -14,3 +14,5 @@ To run this tutorial, make sure to have a cloud account (AWS, Azure, GCP, or K8s
 3. `terraform apply`: provision cloud infrastructure & upload task
 4. `terraform refresh && terraform show`: check status
 5. `terraform destroy`: download results and terminate cloud infrastructure
+
+![](https://github.com/iterative/dvc.org/raw/master/static/uploads/images/2022-05-12/header-bees.png)
