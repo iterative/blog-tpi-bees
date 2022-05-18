@@ -3,6 +3,7 @@ terraform {
 }
 provider "iterative" {}
 
+# Docker GPU version
 resource "iterative_task" "example-docker-gpu" {
   cloud   = "aws"
   machine = "m+t4"   # 4 CPUs and an NVIDIA Tesla T4 GPU

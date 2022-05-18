@@ -1,11 +1,8 @@
 An example of setting up remote cloud environment for training a machine learning model using [Terraform Provider Iterative](https://github.com/iterative/terraform-provider-iterative).
 
-See the blog post at <https://dvc.org/blog/local-experiments-to-cloud-with-tpi> for a full explanation.
+This repository is for part 2; see the blog post at <https://dvc.org/blog/local-experiments-to-cloud-with-tpi-docker> for a full explanation. (Alternatively see part 1 of the blog at <https://dvc.org/blog/local-experiments-to-cloud-with-tpi> and the corresponding repository at <https://github.com/iterative/blog-tpi-bees>.)
 
-The `main.tf` file contains two different tasks:
-
-1. basic scenario for running a script remotely, and
-2. training a model on a GPU device
+The `main.tf` file defines the task (training a model on a GPU device on the cloud with a Docker image).
 
 To run this tutorial, make sure to have a cloud account (AWS, Azure, GCP, or K8s) with [authentication credentials stored as environment variables](https://registry.terraform.io/providers/iterative/iterative/latest/docs/guides/authentication).
 
